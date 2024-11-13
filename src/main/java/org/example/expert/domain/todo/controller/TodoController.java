@@ -2,7 +2,6 @@ package org.example.expert.domain.todo.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.example.expert.client.WeatherClient;
 import org.example.expert.domain.common.annotation.Auth;
 import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 public class TodoController {
 
     private final TodoService todoService;
-    private final WeatherClient weatherClient;
 
     @Transactional
     @PostMapping("/todos")
@@ -39,7 +37,7 @@ public class TodoController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(todoService.getTodos(weather, startDate, endDate ,page, size));
+        return ResponseEntity.ok(todoService.getTodos(weather, startDate, endDate, page, size));
     }
 
     @GetMapping("/todos/{todoId}")
