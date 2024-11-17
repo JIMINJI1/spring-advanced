@@ -30,9 +30,9 @@ public class ManagerService {
     private final TodoRepository todoRepository;
 
     @Transactional
-    public ManagerSaveResponse saveManager(AuthUser authUser, long todoId, ManagerSaveRequest managerSaveRequest) {
+    public ManagerSaveResponse saveManager(User user, long todoId, ManagerSaveRequest managerSaveRequest) {
         // 일정을 만든 유저
-        User user = User.fromAuthUser(authUser);
+        //User user = User.fromAuthUser(authUser);
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
 
@@ -74,8 +74,8 @@ public class ManagerService {
     }
 
     @Transactional
-    public void deleteManager(AuthUser authUser, long todoId, long managerId) {
-        User user = User.fromAuthUser(authUser);
+    public void deleteManager(User user, long todoId, long managerId) {
+        //User user = User.fromAuthUser(authUser);
 
         Todo todo = todoRepository.findById(todoId)
                 .orElseThrow(() -> new InvalidRequestException("Todo not found"));
