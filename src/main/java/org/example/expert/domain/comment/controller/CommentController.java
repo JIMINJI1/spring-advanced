@@ -7,7 +7,7 @@ import org.example.expert.domain.comment.dto.response.CommentResponse;
 import org.example.expert.domain.comment.dto.response.CommentSaveResponse;
 import org.example.expert.domain.comment.service.CommentService;
 import org.example.expert.domain.user.entity.User;
-import org.example.expert.sequrity.UserDetailsImpl;
+import org.example.expert.security.UserDetailsImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;

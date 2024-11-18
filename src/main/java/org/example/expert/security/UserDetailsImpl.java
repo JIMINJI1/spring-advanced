@@ -1,4 +1,4 @@
-package org.example.expert.sequrity;
+package org.example.expert.security;
 
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.domain.user.enums.UserRole;
