@@ -1,4 +1,4 @@
-package org.example.expert.sequrity;
+package org.example.expert.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -23,7 +23,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
     public JwtAuthenticationFilter(final JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        setFilterProcessesUrl("/auth");
+        setFilterProcessesUrl("/auth/signin");
     }
 
     @Override
@@ -44,11 +44,10 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
-
     // 인증 성공
     // UserDetailsImpl에 getUsername()에서 이메일 받아 옴
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException {
         String email = ((UserDetailsImpl) authResult.getPrincipal()).getUsername();
         UserRole role = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getUserRole();
         String nickname = ((UserDetailsImpl) authResult.getPrincipal()).getUser().getNickname();
