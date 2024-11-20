@@ -57,7 +57,7 @@ public class TodoService {
 
         //Page<Todo> todos = todoRepository.findAllByOrderByModifiedAtDesc(pageable);
 
-        //시간 타입 변환
+        //날짜 타입 변환
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
         LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atTime(LocalTime.MAX) : null;
@@ -105,13 +105,12 @@ public class TodoService {
     public Page<TodoSearchResponse> getTodoSearch(String title, String startDate, String endDate, String nickname, int page, int size) {
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        //시간 타입 변환
+        //날짜 타입 변환
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
         LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atTime(LocalTime.MAX) : null;
 
         return todoRepository.searchTodo(title, start, end, nickname, pageable);
-
     }
 
 }
