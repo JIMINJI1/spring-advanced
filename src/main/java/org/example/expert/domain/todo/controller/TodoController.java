@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.service.TodoService;
 import org.example.expert.domain.user.entity.User;
 import org.example.expert.security.UserDetailsImpl;
@@ -50,15 +51,18 @@ public class TodoController {
     }
 
 
-    //도전 레벨3 10 검색기능 만들기
-//    @GetMapping("/todos/search")
-//    public ResponseEntity<Page<TodoSearchResponse>> getTodoSearch(@RequestParam(required = false) String title,
-//                                                                  @RequestParam(required = false) String startDate,
-//                                                                  @RequestParam(required = false) String endDate,
-//                                                                  @RequestParam(required = false) String nickname
-//                                                                  ){
-//        return ResponseEntity.ok(todoService.getTodoSearch(title,startDate,endDate,nickname));
-//
-//    }
+    //도전 레벨3 10 검색기능
+    @GetMapping("/todos/search")
+    public ResponseEntity<Page<TodoSearchResponse>> getTodoSearch(@RequestParam(required = false) String title,
+                                                                  @RequestParam(required = false) String startDate,
+                                                                  @RequestParam(required = false) String endDate,
+                                                                  @RequestParam(required = false) String nickname,
+                                                                  @RequestParam(defaultValue = "1") int page,
+                                                                  @RequestParam(defaultValue = "10") int size
+    ) {
+
+        return ResponseEntity.ok(todoService.getTodoSearch(title, startDate, endDate, nickname, page, size));
+
+    }
 
 }

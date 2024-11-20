@@ -2,11 +2,11 @@ package org.example.expert.domain.todo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.expert.client.WeatherClient;
-import org.example.expert.domain.common.dto.AuthUser;
 import org.example.expert.domain.common.exception.InvalidRequestException;
 import org.example.expert.domain.todo.dto.request.TodoSaveRequest;
 import org.example.expert.domain.todo.dto.response.TodoResponse;
 import org.example.expert.domain.todo.dto.response.TodoSaveResponse;
+import org.example.expert.domain.todo.dto.response.TodoSearchResponse;
 import org.example.expert.domain.todo.entity.Todo;
 import org.example.expert.domain.todo.repository.TodoRepository;
 import org.example.expert.domain.user.dto.response.UserResponse;
@@ -31,7 +31,7 @@ public class TodoService {
     private final WeatherClient weatherClient;
 
     public TodoSaveResponse saveTodo(User user, TodoSaveRequest todoSaveRequest) {
-       // User user = User.fromAuthUser(authUser);
+        // User user = User.fromAuthUser(authUser);
 
         String weather = weatherClient.getTodayWeather();
 
@@ -62,16 +62,16 @@ public class TodoService {
         LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
         LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atTime(LocalTime.MAX) : null;
 
-        if(start != null && end != null && start.isAfter(end)) {
+        if (start != null && end != null && start.isAfter(end)) {
             throw new IllegalArgumentException("시작 날짜는 종료 날짜보다 늦을 수 없습니다.");
         }
-        
-        if(start != null && end == null && end.isBefore(start)) {
+
+        if (start != null && end == null && end.isBefore(start)) {
             throw new IllegalArgumentException("종료 날짜는 시작 날짜보다 빠를 수 없습니다.");
         }
-        
 
-        Page<Todo> todos = todoRepository.findTodosByConditions(weather,start,end,pageable);
+
+        Page<Todo> todos = todoRepository.findTodosByConditions(weather, start, end, pageable);
 
         return todos.map(todo -> new TodoResponse(
                 todo.getId(),
@@ -100,4 +100,18 @@ public class TodoService {
                 todo.getModifiedAt()
         );
     }
+
+    //도전 레벨3 10 검색기능
+    public Page<TodoSearchResponse> getTodoSearch(String title, String startDate, String endDate, String nickname, int page, int size) {
+        Pageable pageable = PageRequest.of(page - 1, size);
+
+        //시간 타입 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime start = (startDate != null) ? LocalDate.parse(startDate, formatter).atStartOfDay() : null;
+        LocalDateTime end = (endDate != null) ? LocalDate.parse(endDate, formatter).atTime(LocalTime.MAX) : null;
+
+        return todoRepository.searchTodo(title, start, end, nickname, pageable);
+
+    }
+
 }
