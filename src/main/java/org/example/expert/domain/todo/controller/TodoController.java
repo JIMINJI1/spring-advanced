@@ -23,7 +23,7 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @Transactional
+
     @PostMapping("/todos")
     public ResponseEntity<TodoSaveResponse> saveTodo(
             @AuthenticationPrincipal UserDetailsImpl userDetails,
